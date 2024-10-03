@@ -1,0 +1,4 @@
+test.wav
+.dist
+venv
+**/__pycache__
