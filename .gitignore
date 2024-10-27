@@ -1,4 +1,10 @@
+tc_test.wav
 test.wav
 .dist
+/build
 venv
 **/__pycache__
+/models
+/melotts_onnx.egg-info
+.upload
+publish-models.ipynb

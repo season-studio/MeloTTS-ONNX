@@ -9,7 +9,7 @@ def split_sentence(text, min_len=10, language_str='EN'):
 
 
 def split_sentences_latin(text, min_len=10):
-    text = re.sub('[。！？；]', '.', text)
+    text = re.sub('[。！？；…]', '.', text)
     text = re.sub('[，]', ',', text)
     text = re.sub('[“”]', '"', text)
     text = re.sub('[‘’]', "'", text)
@@ -18,7 +18,7 @@ def split_sentences_latin(text, min_len=10):
 
 
 def split_sentences_zh(text, min_len=10):
-    text = re.sub('[。！？；]', '.', text)
+    text = re.sub('[。！？；…]', '.', text)
     text = re.sub('[，]', ',', text)
     # 将文本中的换行符、空格和制表符替换为空格
     text = re.sub('[\n\t ]+', ' ', text)
@@ -32,13 +32,22 @@ def split_sentences_zh(text, min_len=10):
     new_sentences = []
     new_sent = []
     count_len = 0
+    idx_eos = 0
     for ind, sent in enumerate(sentences):
         new_sent.append(sent)
         count_len += len(sent)
+        if sent.endswith((".","!","?")):
+            idx_eos = len(new_sent)
         if count_len > min_len or ind == len(sentences) - 1:
-            count_len = 0
-            new_sentences.append(' '.join(new_sent))
-            new_sent = []
+            if idx_eos > 0 and idx_eos != len(new_sent):
+                sub_new_sent = new_sent[:idx_eos]
+                new_sentences.append(' '.join(sub_new_sent))
+                new_sent = new_sent[idx_eos:]
+                count_len -= sum([len(t) for t in sub_new_sent])
+            else:
+                count_len = 0
+                new_sentences.append(' '.join(new_sent))
+                new_sent = []
     return merge_short_sentences_zh(new_sentences)
 
 

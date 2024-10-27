@@ -23,7 +23,7 @@ with open('requirements.txt') as f:
 
 setup(
     name='melotts_onnx',
-    version='0.0.1',
+    version='0.0.2',
     author="Season Studio",
     author_email="season-studio@outlook.com",
     description="An implementation of melo tts by onnxruntime",
